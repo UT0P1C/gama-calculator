@@ -2,15 +2,39 @@
     padding: 0;
     margin: 0;
     background-origin: padding-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 html{
     font-size: 16px;
-    background-color: #636363;
+    background-color: #222;
 }
 
-.calculator{
+.header{
+	display: flex;
+	background-color: #333;
+	height: 50px;
+	width: 100%;
+}
+
+.title {
+	display: flex;
+	align-items: center;
+}
+
+.title h3{
+	color: rgb(219, 218, 218);
+	font-size: 23px;
+}
+
+.icon{
+	height: 35px;
+	width: 35px;
+	padding: 0 15px;
+	margin-top: 5px;
+}
+
+.calc{
     position: absolute;
 
     top: 50%;
@@ -19,8 +43,8 @@ html{
     transform: translate(-50%, -50%);
 }
 
-.calc-container{
-    background-color: #1d1d1d;
+.calc__container{
+    background-color: #000;
 
     width: 600px;
     height: auto;
@@ -28,8 +52,8 @@ html{
     border-radius: 0 0 30px 30px;
 }
 
-.output{
-    width: 100%;;
+.output__container{
+    width: 100%;
 }   
 
 .operation{
@@ -44,7 +68,7 @@ html{
     position: relative;
     overflow: hidden;
 }
-.operation .value{
+.operation .val{
     position: absolute;
 
     bottom: 5px;
@@ -56,18 +80,18 @@ html{
 
 .result{
     width: 600px;
-    height: 140px;
+    height: 50px;
 
     color: #FFF;
 
-    font-size: 2.6em;
+    font-size: 45px;
     font-weight: bold;
     
     overflow: hidden;
     position: relative;
 }
 
-.result .value{
+.result .val{
     position: absolute;
 
     top: 50%;
@@ -79,9 +103,8 @@ html{
 }
 
 
-.input{
-    background-color: #FFF;
-
+.input__container{
+    background-color: #333;
     border-radius: 0 0 25px 25px;
     border: 1px solid #1d1d1d;
     height: 340px;
@@ -97,12 +120,13 @@ html{
     width: 50px;
     height: 50px;
 
+	color: #fff;
+
     font-size: 1.5em;
 
     border: none;
     border-radius: 50%;
     background-color: transparent;
-
     margin : 8px;
 
     cursor: pointer;

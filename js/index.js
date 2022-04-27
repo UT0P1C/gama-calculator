@@ -1,4 +1,23 @@
-let calculator_buttons = [
+//elementos
+const input_container = document.querySelector(".input__container");
+const output_operation = document.querySelector(".operation");
+const output_container = document.querySelector(".output__container")
+
+//operadores
+const operators = ["+", "-", "/", "*"];
+
+const potenciacao = "potenciacao(", fatoracao = "fatoracao";
+
+//operacao e formula irao guardar toda a operação que o usuário fizer
+
+let data = {
+	operation: [],
+	formula: []
+}
+
+//botoes (tirei do stack overflow)
+
+let calc_btn = [
     {
         name : "rad",
         symbol : "Rad",
@@ -20,7 +39,7 @@ let calculator_buttons = [
     {
         name : "square",
         symbol : "x²",
-        formula : POWER,
+        formula : potenciacao,
         type : "math_function"
     },
     {
@@ -43,7 +62,7 @@ let calculator_buttons = [
     },
     {
         name : "delete",
-        symbol : "⌫",
+        symbol : "X",
         formula : false,
         type : "key"
     },
@@ -135,7 +154,7 @@ let calculator_buttons = [
     },{
         name : "factorial",
         symbol : "×!",
-        formula : FACTORIAL,
+        formula : fatoracao,
         type : "math_function"
     },{
         name : "exp",
@@ -175,7 +194,7 @@ let calculator_buttons = [
     },{
         name : "power",
         symbol : "x<span>y</span>",
-        formula : POWER,
+        formula : potenciacao,
         type : "math_function"
     },{
         name : "ANS",
@@ -210,7 +229,33 @@ let calculator_buttons = [
     }
 ];
 
-// GAMMA FUNCTION
+
+//cria os botoes da calculadora
+
+function createCalcBtn () {
+	const btn_row_limit = 8;
+	let btn_now = 0;
+
+	calc_btn.forEach( btn => {
+		if (btn_now % btn_row_limit == 0) {
+			input_container.innerHTML += `<div class="row"> </div>`;
+		}
+
+		const row = document.querySelector(".row:last-child");
+		row.innerHTML += `<button id="${btn.name}">
+		${btn.symbol}
+		</button>`;
+
+		btn_now++;
+	})
+}
+
+createCalcBtn();
+
+// gamma function (tirei do stack overflow também)
+
+/*
+
 function gamma(n) {  // accurate to about 15 decimal places
     //some magic constants 
     var g = 7, // g represents the precision desired, p is the values of p[i] to plug into Lanczos' formula
@@ -227,4 +272,4 @@ function gamma(n) {  // accurate to about 15 decimal places
 		var t = n + g + 0.5;
 		return Math.sqrt(2 * Math.PI) * Math.pow(t, (n + 0.5)) * Math.exp(-t) * x;
     }
-}
+}*/
