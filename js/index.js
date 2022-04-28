@@ -1,7 +1,9 @@
+import { calc_btn } from "./buttons.js";
+
 //elementos
 const input_container = document.querySelector(".input__container");
-const output_operation = document.querySelector(".operation");
-const output_container = document.querySelector(".output__container")
+const output_operation = document.querySelector(".operation .val");
+const output_result = document.querySelector(".res .val")
 
 //operadores
 const operators = ["+", "-", "/", "*"];
@@ -15,219 +17,9 @@ let data = {
 	formula: []
 }
 
-//botoes (tirei do stack overflow)
+//variaveis aleatorias
 
-let calc_btn = [
-    {
-        name : "rad",
-        symbol : "Rad",
-        formula : false,
-        type : "key"
-    },
-    {
-        name : "deg",
-        symbol : "Deg",
-        formula : false,
-        type : "key"
-    },
-    {
-        name : "square-root",
-        symbol : "√",
-        formula : "Math.sqrt",
-        type : "math_function"
-    },
-    {
-        name : "square",
-        symbol : "x²",
-        formula : potenciacao,
-        type : "math_function"
-    },
-    {
-        name : "open-parenthesis",
-        symbol : "(",
-        formula : "(",
-        type : "number"
-    },
-    {
-        name : "close-parenthesis",
-        symbol : ")",
-        formula : ")",
-        type : "number"
-    },
-    {
-        name : "clear",
-        symbol : "C",
-        formula : false,
-        type : "key"
-    },
-    {
-        name : "delete",
-        symbol : "X",
-        formula : false,
-        type : "key"
-    },
-    {
-        name : "pi",
-        symbol : "π",
-        formula : "Math.PI",
-        type : "number"
-    },
-    {
-        name : "cos",
-        symbol : "cos",
-        formula : "trigo(Math.cos,",
-        type : "trigo_function"
-    },{
-        name : "sin",
-        symbol : "sin",
-        formula : "trigo(Math.sin,",
-        type : "trigo_function"
-    },{
-        name : "tan",
-        symbol : "tan",
-        formula : "trigo(Math.tan,",
-        type : "trigo_function"
-    },{
-        name : "7",
-        symbol : 7,
-        formula : 7,
-        type : "number"
-    },{
-        name : "8",
-        symbol : 8,
-        formula : 8,
-        type : "number"
-    },{
-        name : "9",
-        symbol : 9,
-        formula : 9,
-        type : "number"
-    },
-    {
-        name : "division",
-        symbol : "÷",
-        formula : "/",
-        type : "operator"
-    },
-    {
-        name : "e",
-        symbol : "e",
-        formula : "Math.E",
-        type : "number"
-    },
-    {
-        name : "acos",
-        symbol : "acos",
-        formula : "inv_trigo(Math.acos,",
-        type : "trigo_function"
-    },{
-        name : "asin",
-        symbol : "asin",
-        formula : "inv_trigo(Math.asin,",
-        type : "trigo_function"
-    },{
-        name : "atan",
-        symbol : "atan",
-        formula : "inv_trigo(Math.atan,",
-        type : "trigo_function"
-    },
-    {
-        name : "4",
-        symbol : 4,
-        formula : 4,
-        type : "number"
-    },{
-        name : "5",
-        symbol : 5,
-        formula : 5,
-        type : "number"
-    },{
-        name : "6",
-        symbol : 6,
-        formula : 6,
-        type : "number"
-    },{
-        name : "multiplication",
-        symbol : "×",
-        formula : "*",
-        type : "operator"
-    },{
-        name : "factorial",
-        symbol : "×!",
-        formula : fatoracao,
-        type : "math_function"
-    },{
-        name : "exp",
-        symbol : "exp",
-        formula : "Math.exp",
-        type : "math_function"
-    },{
-        name : "ln",
-        symbol : "ln",
-        formula : "Math.log",
-        type : "math_function"
-    },{
-        name : "log",
-        symbol : "log",
-        formula : "Math.log10",
-        type : "math_function"
-    },{
-        name : "1",
-        symbol : 1,
-        formula : 1,
-        type : "number"
-    },{
-        name : "2",
-        symbol : 2,
-        formula : 2,
-        type : "number"
-    },{
-        name : "3",
-        symbol : 3,
-        formula : 3,
-        type : "number"
-    },{
-        name : "subtraction",
-        symbol : "–",
-        formula : "-",
-        type : "operator"
-    },{
-        name : "power",
-        symbol : "x<span>y</span>",
-        formula : potenciacao,
-        type : "math_function"
-    },{
-        name : "ANS",
-        symbol : "ANS",
-        formula : "ans",
-        type : "number"
-    },{
-        name : "percent",
-        symbol : "%",
-        formula : "/100",
-        type : "number"
-    },{
-        name : "comma",
-        symbol : ".",
-        formula : ".",
-        type : "number"
-    },{
-        name : "0",
-        symbol : 0,
-        formula : 0,
-        type : "number"
-    },{
-        name : "calculate",
-        symbol : "=",
-        formula : "=",
-        type : "calculate"
-    },{
-        name : "addition",
-        symbol : "+",
-        formula : "+",
-        type : "operator"
-    }
-];
+let ans = 0;
 
 
 //cria os botoes da calculadora
@@ -251,6 +43,62 @@ function createCalcBtn () {
 }
 
 createCalcBtn();
+
+//ouvir os clicks do usuário
+
+input_container.addEventListener("click", e => {
+
+	const target_btn = e.target;
+
+	calc_btn.forEach( btn => {
+		if(btn.name == target_btn.id) calculate(btn);
+	})
+
+})
+
+//calculadora
+
+function calculate(btn) {
+	if(btn.type == "number"){
+
+		data.operation.push(btn.symbol);
+		data.formula.push(btn.formula);
+
+	} else if(btn.type == "operator"){
+
+		data.operation.push(btn.symbol);
+		data.formula.push(btn.formula);
+
+	} else if(btn.type == "trigo_function"){
+	
+	} else if(btn.type == "math_function"){
+	
+	} else if(btn.type == "key"){
+	
+	} else if(btn.type == "calculate"){
+		
+		let formula_str = data.formula.join("");
+
+		let result = eval(formula_str);
+
+		updateRes(result);
+	
+	}
+
+	updateOp(data.operation.join(""));
+}
+
+//função para atualizar as operações e o resultado
+
+function updateOp(operation){
+	output_operation.innerHTML = operation
+}
+
+function updateRes(result){
+	output_result.innerHTML = result
+}
+
+
 
 // gamma function (tirei do stack overflow também)
 

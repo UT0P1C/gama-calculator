@@ -78,7 +78,7 @@ html{
     overflow: hidden;
 }
 
-.result{
+.res{
     width: 600px;
     height: 50px;
 
@@ -91,7 +91,7 @@ html{
     position: relative;
 }
 
-.result .val{
+.res .val{
     position: absolute;
 
     top: 50%;
