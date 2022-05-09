@@ -60,23 +60,84 @@ input_container.addEventListener("click", e => {
 
 function calculate(btn) {
 	if(btn.type == "number"){
-
+		//adiciona o número
 		data.operation.push(btn.symbol);
 		data.formula.push(btn.formula);
 
 	} else if(btn.type == "operator"){
-
+		//adiciona o operador
 		data.operation.push(btn.symbol);
 		data.formula.push(btn.formula);
 
 	} else if(btn.type == "trigo_function"){
+		//funções trigonometricas
+
+		data.operation.push(btn.symbol + "(")
+		data.formula.push(btn.formula)
+
 	
 	} else if(btn.type == "math_function"){
-	
+		let symbol;
+		let formula;
+
+		//fatoração
+		if(btn.name == "factorial"){
+			symbol = "!";
+			formula = btn.formula;
+
+			data.operation.push(symbol);
+			data.formula.push(formula);
+
+		}
+		//potenciação
+		else if (btn.name == "power"){
+			symbol = "^(";
+			formula = btn.formula;
+
+			data.operation.push(symbol);
+			data.formula.push(formula);
+
+		}
+		//elevado ao quadrado
+		else if (btn.name == "square"){
+			symbol = "^(";
+			formula = btn.formula;
+
+			data.operation.push(symbol);
+			data.formula.push(formula);
+
+			data.operation.push("2)");
+			data.formula.push("2)");
+
+		}
+		//outras funções matemáticas
+		else {
+			symbol = btn.symbol + "(";
+			formula = btn.formula + "(";
+
+			data.operation.push(symbol);
+			data.formula.push(formula)
+		}
 	} else if(btn.type == "key"){
+
+		//limpa
+		if(btn.name == "clear"){
+
+			data.operation = []
+			data.formula = []
+
+			updateRes(0);
+
+		}
+		//apaga o ultimo numero digitado
+		if(btn.name == "delete"){
+			data.operation.pop();
+			data.formula.pop();
+		}
 	
 	} else if(btn.type == "calculate"){
 		
+		//faz a operação usando eval
 		let formula_str = data.formula.join("");
 
 		let result = eval(formula_str);

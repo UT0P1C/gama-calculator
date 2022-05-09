@@ -20,12 +20,12 @@ export const calc_btn = [
 		formula: "Math.sqrt",
 		type: "math_function"
 	},
-	/*{
+	{
 		name: "square",
 		symbol: "x²",
-		formula: potenciacao,
+		formula: "power",
 		type: "math_function"
-	},*/
+	},
 	{
 		name: "open-parenthesis",
 		symbol: "(",
@@ -135,12 +135,12 @@ export const calc_btn = [
 		symbol: "×",
 		formula: "*",
 		type: "operator"
-	}, /* {
+	}, {
 		name: "factorial",
 		symbol: "×!",
-		formula: fatoracao,
+		formula: "factorial",
 		type: "math_function"
-	},*/ {
+	}, {
 		name: "exp",
 		symbol: "exp",
 		formula: "Math.exp",
@@ -175,12 +175,12 @@ export const calc_btn = [
 		symbol: "–",
 		formula: "-",
 		type: "operator"
-	},/* {
+	}, {
 		name: "power",
 		symbol: "x<span>y</span>",
-		formula: potenciacao,
+		formula: "potenciacao",
 		type: "math_function"
-	},*/ {
+	}, {
 		name: "ANS",
 		symbol: "ANS",
 		formula: "ans",
