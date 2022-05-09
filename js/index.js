@@ -8,7 +8,7 @@ const operators = ["+", "-", "/", "*"];
 
 const POWER = "POWER(", FACTORIAL = "FACTORIAL";
 
-//operacao e formula irao guardar toda a operação que o usuário fizer
+//operacao e formula que irao guardar toda a operação que o usuário fizer
 
 let data = {
 	operation: [],
@@ -257,7 +257,7 @@ function createCalcBtn () {
 createCalcBtn();
 
 
-//Radianos e graus
+//alternar entre radianos e graus
 
 let RADIAN = true;
 
@@ -383,11 +383,26 @@ function calculate(btn) {
 
 		let factorial_search = search(data.formula, FACTORIAL);
 
-		//obtém a base de potenciação
+		//obtém a base de potenciação e substitui pela função correta
 
 		const bases = getPowerBases(data.formula, power_search);
 
-		console.log(bases);
+		bases.forEach(base => {
+			let toReplace = base + POWER;
+			let replacement = "Math.pow(" + base + ",";
+
+			formula_str = formula_str.replace(toReplace, replacement);
+		});
+
+		//obtém o numero da fatoração e substitui pela função correta
+
+		const numbers = getFactorialNumbers(data.formula, factorial_search);
+
+		numbers.forEach(factorial => {
+			formula_str = formula_str.replace(factorial.toReplace, factorial.replacement);
+		});
+
+		console.log(formula_str);
 		
 		//calcula
 
@@ -409,14 +424,86 @@ function calculate(btn) {
 		data.formula[ result ];
 	
 		updateRes(result);
+		return;
 	}
 
 
 	updateOp(data.operation.join(""));
 }
 
+//pegar os numeros da fatoração
 
-//pegar a base da potenciação
+function getFactorialNumbers(formula, factorial_search){
+	let numbers = []; // armazena os numeros
+	let factorial_sequence = 0; // sequencia de fatoração
+
+	factorial_search.forEach(factorial_index => {
+		let number = []; // número atual
+
+		//pega o próximo número
+		let next_index = factorial_index + 1;
+
+		let next_input = formula[next_index];
+
+		if(next_input == FACTORIAL){
+			factorial_sequence += 1;
+			return;
+		}
+
+		//pega o primeiro simbolo de fatoração
+		let first_factorial_index = factorial_index - factorial_sequence;
+
+		//entao pega o número antes dele
+
+		let previous_index = first_factorial_index - 1;
+
+		let parentheses_count = 0; // contagem dos parenteses
+
+		while(previous_index >= 0) {
+			//adiciona ou diminui a contagem de parenteses
+			if(formula[previous_index] == "(" ) parentheses_count--;
+			if(formula[previous_index] == ")" ) parentheses_count++;
+
+
+			//verifica se é um operador ou potenciação
+			let is_operator = false;
+
+			operators.forEach( operator => {
+				if(formula[previous_index] == operator) is_operator = true;
+
+			});
+
+			if(is_operator && parentheses_count == 0) break;
+
+			number.unshift(formula[previous_index]);
+			previous_index--;
+		}
+
+		let number_str = number.join("");
+		const factorial = "factorial(" , close_parenthesis = ")";
+		let times = factorial_sequence + 1;
+
+		let toReplace = number_str + FACTORIAL.repeat(times);
+		let replacement = factorial.repeat(times) + number_str + close_parenthesis.repeat(times);
+
+		numbers.push({
+			toReplace : toReplace,
+			replacement: replacement
+		});
+
+		//reseta a sequencia de fatorações
+
+		factorial_sequence = 0;
+
+
+	});
+
+	return numbers;
+}
+
+
+
+//pegar as bases da potenciação
 
 function getPowerBases(formula, power_search){
 	let bases = []; // armazena as bases
@@ -489,7 +576,7 @@ function factorial(num){
 	let result = 1;
 	for (let i = 1; i <= num; i++) {
 		result *= i;
-		if (result === Infinity) return Infinity;
+		if (result == Infinity) return Infinity;
 	}
 
 	return result
